@@ -1,24 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Button} from "react-bootstrap";
+import SearchComponent from "./components/SearchComponent";
+import data from './assets/city.list.min';
 
 function App() {
-  return (
+    let arr = data.splice(0,1000);
+    console.log(arr)
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Button variant="primary">Primary</Button>
+        <img src="http://openweathermap.org/img/wn/01n@2x.png" alt=""/>
+        <div>
+            <SearchComponent searchField='name' dataArray={arr}/>
+        </div>
     </div>
   );
 }
