@@ -1,31 +1,28 @@
 import React, {useEffect, useState} from "react";
 
 const SearchComponent = ({dataArray, searchField}) => {
-    const [inpValue, setInpValue] = useState('');
-    const [array, setArray] = useState([...dataArray]);
+    const [array, setArray] = useState([]);
 
     const handleInputChange = (e)=> {
-        setInpValue(e.target.value);
+        let searchWord = e.target.value;
+        if (!searchWord.trim() || searchWord.length < 3) {
+            setArray([])
+        } else {
+            filterValues(searchWord);
+        }
     };
 
     const filterValues = (searchWord) =>{
         if (!searchWord) return null;
-        console.log(searchWord)
-        console.log(dataArray)
-       let filteredArray =  array.filter(element => {
-         return  String(element[searchField]).toLowerCase().includes(searchWord.toLowerCase())
+       let filteredArray =  dataArray.filter(element => {
+         return  String(element[searchField]).toLowerCase().indexOf(searchWord.toLowerCase()) > -1;
        });
         setArray(filteredArray)
     };
 
-    useEffect(()=> {
-        console.log('user effect')
-        filterValues(inpValue);
-    },[])
-
     return (
         <>
-            <input type="text" value={inpValue} onChange={handleInputChange}/>
+            <input type="text"  onChange={handleInputChange}/>
             <ul>
                 {array.map((item, index) => (
                     <li key={createIndex({searchField,index})}>
