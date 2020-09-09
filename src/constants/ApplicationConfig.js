@@ -7,3 +7,8 @@ export const APP_SETTINGS = {
     }
 };
 
+//SETTINGS
+export const AVAILABLE_LANGUAGES = {
+    'english' : 'en',
+    'russian' : 'ru'
+};

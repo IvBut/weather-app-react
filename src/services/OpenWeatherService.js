@@ -18,6 +18,8 @@ class OpenWeatherService {
         let url = `${endPoint}/data/2.5/onecall?${params}`;
 
         const response = await axios.get(url);
+        const currentWeather = response.current;
+
         return response;
     }
 
@@ -25,6 +27,7 @@ class OpenWeatherService {
         let queryParams = [];
         queryParams.push(Object.entries(coord).map(value => value.join('=')).join('&'));
         queryParams.push(metric);
+        queryParams.push(`exclude=minutely,hourly`);
         queryParams.push(`appid=${apikey}`);
         return queryParams.join('&');
     }

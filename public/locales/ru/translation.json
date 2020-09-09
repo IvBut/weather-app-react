@@ -1,0 +1,13 @@
+{
+  "search-component": {
+    "search": "Поииск",
+    "placeholder": "Введите названия города (латин.)"
+  },
+  "language-btn": {
+    "name": "Изменить язык",
+    "options": {
+        "english": "Англиский",
+        "russian": "Русский"
+    }
+  }
+}

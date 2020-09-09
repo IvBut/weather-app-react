@@ -2,11 +2,13 @@ import React, {useEffect, useState} from "react";
 import SearchOption from "./SearchOption";
 import Button from "react-bootstrap/Button";
 import './searchComponent.css';
+import {useTranslation} from "react-i18next";
 
 const SearchComponent = ({dataArray, searchField, onSearch}) => {
     const [array, setArray] = useState([]);
     const [isValidSearch, setIsValidSearch] = useState(true);
     const [selectedOption, setSelectedOption] = useState(null);
+    const [t] = useTranslation('translation');
 
     const inpRef = React.createRef();
 
@@ -53,8 +55,8 @@ const SearchComponent = ({dataArray, searchField, onSearch}) => {
         <div className="wrapper">
 
             <div className="search-element-container">
-                <input type="text"  onChange={handleInputChange} ref={inpRef} className="search-element-input" placeholder="Search for city..."/>
-                <Button variant="primary" disabled={!isValidSearch || !selectedOption} className="search-element-btn" onClick={() => onSearch(selectedOption)}>Search</Button>
+                <input type="text"  onChange={handleInputChange} ref={inpRef} className="search-element-input" placeholder={t("search-component.placeholder")}/>
+                <Button variant="primary" disabled={!isValidSearch || !selectedOption} className="search-element-btn" onClick={() => onSearch(selectedOption)}>{t("search-component.search")}</Button>
             </div>
             {!isValidSearch && (<p style={{width:'100%', color:'red', textAlign:'center'}}>Only Latin characters are allowed!</p>)}
             <ul>

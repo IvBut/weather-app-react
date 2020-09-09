@@ -1,13 +1,21 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './i18n'
+import {Provider} from "react-redux";
+import store from "./store/store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+        <Suspense fallback="loading">
+            <App />
+        </Suspense>
+    </Provider>
+
   </React.StrictMode>,
   document.getElementById('root')
 );

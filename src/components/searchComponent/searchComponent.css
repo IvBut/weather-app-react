@@ -9,7 +9,7 @@
 }
 
 .search-element-input {
-    max-width: 150px;
+    max-width: 200px;
     font-size: 1rem;
     font-weight: 400;
     border: 1px solid cornflowerblue;
@@ -23,7 +23,7 @@
 ul {
     background: transparent;
     position: absolute;
-    max-width: 150px;
+    max-width: 200px;
     width: 100%;
     padding: 0;
     max-height: 150px;

@@ -1,0 +1,13 @@
+{
+  "search-component": {
+    "search": "Search",
+    "placeholder": "Enter city name (lat)"
+  },
+  "language-btn": {
+    "name": "Change language",
+    "options": {
+      "english": "English",
+      "russian": "Russian"
+    }
+  }
+}
