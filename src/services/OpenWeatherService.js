@@ -104,7 +104,11 @@ function createWeatherForecast(forecast){
         let time = weather['dt'] * 1000;
         return {
             ...weather,
-            dt: (moment(time).format('DD MMMM') + ',' + moment(time).format('dddd')).toUpperCase(),
+            dt: {
+                dayNumber: moment(time).format('DD'),
+                dayName: moment(time).format('dddd'),
+                month: moment(time).format('MMMM')
+            },
             weather: weather['weather'][0],
             clouds: weather['clouds'] + '%'
         }

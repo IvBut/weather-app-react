@@ -6,7 +6,6 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import SearchComponent from "./components/searchComponent/SearchComponent";
 import data from './assets/city.list.min';
 import {APP_SETTINGS, AVAILABLE_LANGUAGES} from "./constants/ApplicationConfig";
-import {openWeatherService} from "./services/OpenWeatherService";
 import {changeLanguage} from "./store/actions/languageActionCreator";
 import {connect} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -41,7 +40,6 @@ function App({onLanguageChange,onWeatherSearch, isActive, weatherForecast, curre
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
                     <DropdownButton id="dropdown-basic-button" title={t('language-btn.name')}>
                         {
                             Object.keys(AVAILABLE_LANGUAGES).map((lang,idx) =>{
@@ -52,7 +50,7 @@ function App({onLanguageChange,onWeatherSearch, isActive, weatherForecast, curre
                         }
                     </DropdownButton>
                 </Nav>
-                <div>
+                <div className="mr-1">
                     <SearchComponent searchField='name' dataArray={data} onSearch={handleWeatherSearch}/>
                 </div>
             </Navbar.Collapse>

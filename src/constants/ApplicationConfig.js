@@ -27,11 +27,21 @@ export const TEMPERATURE_TEMPLATE = {
 
 export const DAILY_WEATHER_TEMPLATE = {
     'clouds': 'clouds',
-    'dt': 'dt',
+    'dt': {
+        'dayName': 'day-name.',
+        'month': 'month.'
+    },
     'humidity': 'humidity',
     'pressure': 'pressure',
     'rain': 'rain',
-    'temp': 'temp',
+    'temp': {
+        'day': 'daily-weather.temp.day',
+        'eve': 'daily-weather.temp.eve',
+        'max': 'daily-weather.temp.max',
+        'min': 'daily-weather.temp.min',
+        'morn': 'daily-weather.temp.morn',
+        'night': 'daily-weather.temp.night'
+    },
     'weather': 'weather',
     'wind_speed': 'wind_speed'
 };

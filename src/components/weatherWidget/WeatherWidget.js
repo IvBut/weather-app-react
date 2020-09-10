@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import Carousel from 'react-bootstrap/Carousel'
+import Table from 'react-bootstrap/Table'
 import {APP_SETTINGS, CURRENT_WEATHER_TEMPLATE, DAILY_WEATHER_TEMPLATE} from "../../constants/ApplicationConfig";
 import {useTranslation} from "react-i18next";
 
@@ -17,7 +18,7 @@ const WeatherWidget = ({currentWeather, weatherForecast}) => {
     const {t} = useTranslation('translation');
 
     return (
-       <Container className="bg-secondary">
+       <Container fluid className="bg-secondary">
            <Row>
                <Col lg={6} xs={12}>
                    <Card className="w-100" bg={'dark'} border={'primary'} text={'light'}>
@@ -52,25 +53,45 @@ const WeatherWidget = ({currentWeather, weatherForecast}) => {
                                            src={getWeatherImg(weather,4)}
                                            alt="Forecast"
                                        />
-                                       <Carousel.Caption>
-                                           <h3>{weather['dt']}</h3>
-                                           <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                       <Carousel.Caption style={{position:'static'}}>
+                                           <h3 style={{marginBottom: '1rem'}}>
+                                               {t(`${DAILY_WEATHER_TEMPLATE.dt.dayName}${weather['dt']['dayName']}`)}
+                                               {` - ${weather['dt']['dayNumber']} - `}
+                                               {t(`${DAILY_WEATHER_TEMPLATE.dt.month}${weather['dt']['month']}`)}
+                                           </h3>
+                                           <Table striped bordered hover variant={'dark'} size="sm" style={{margin:'1rem auto'}} responsive={true}>
+                                               <thead>
+                                               <tr>
+                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.morn)}</th>
+                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.day)}</th>
+                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.night)}</th>
+                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.max)}</th>
+                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.min)}</th>
+                                               </tr>
+                                               </thead>
+                                               <tbody>
+                                               <tr>
+                                                   <td>{weather['temp']['morn']}</td>
+                                                   <td>{weather['temp']['day']}</td>
+                                                   <td>{weather['temp']['night']}</td>
+                                                   <td>{weather['temp']['max']}</td>
+                                                   <td>{weather['temp']['min']}</td>
+                                               </tr>
+                                               </tbody>
+                                           </Table>
                                        </Carousel.Caption>
                                    </Carousel.Item>
                                )
                            })
                        }
-
                    </Carousel>
                </Col>
-           </Row>
-           <Row>
-
            </Row>
        </Container>
     )
 };
 
+//current weather settings
 function getCurrentWeatherDate(weatherObj) {
     return weatherObj['dt']
 }
@@ -83,6 +104,12 @@ function getWeatherDescription(weatherObj) {
 function getWeatherImg(weatherObj, size) {
     let pathTail = size > 0 ? `@${size}x.png` : `.png`;
     return APP_SETTINGS.OPEN_WEATHER.ICON_URL + weatherObj['weather']['icon'] + pathTail;
+}
+
+
+//forecast settings
+function getForecastWeatherDay(weatherObj) {
+
 }
 
 export default WeatherWidget;
