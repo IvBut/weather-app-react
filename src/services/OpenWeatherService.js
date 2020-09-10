@@ -1,7 +1,7 @@
 import {APP_SETTINGS} from "../constants/ApplicationConfig";
 import axios from 'axios'
 import moment from 'moment';
-import 'moment/locale/ru';
+
 
 const MEASURMENT_UNITS = {
     metric: 'units=metric',
@@ -9,12 +9,23 @@ const MEASURMENT_UNITS = {
 };
 const excludeParts = ['current', 'minutely','hourly', 'daily'];
 
-export const currentWeatherResponse = {
+const currentWeatherResponseTemplate = {
     'clouds': 'number',
     'temp': 'number',
     'feels_like': 'number',
     'dt': 'number',
     'weather': 'object'
+};
+
+const dailyWeatherForecastTemplate = {
+    'clouds': 'number',
+    'dt': 'number',
+    'humidity': 'number',
+    'pressure': 'number',
+    'rain': 'number',
+    'temp': 'object',
+    'weather': 'object',
+    'wind_speed': 'number'
 };
 
 class OpenWeatherService {
@@ -29,9 +40,10 @@ class OpenWeatherService {
 
         const response = await axios.get(url);
 
-        const currentWeather = createCurrentWeatherObj(response.data.current);
+        const currentWeather = response.data['current'] ? createCurrentWeatherObj(response.data['current']) : null;
+        const weatherForecast = response.data['daily']? createWeatherForecast(response.data['daily']) : null;
 
-        return currentWeather;
+        return {currentWeather, weatherForecast};
     }
 
     _createParamString(coord,metric, apikey){
@@ -47,7 +59,7 @@ class OpenWeatherService {
 
 function createCurrentWeatherObj(obj) {
    let result  = {};
-    for (const [field, type] of Object.entries(currentWeatherResponse)){
+    for (const [field, type] of Object.entries(currentWeatherResponseTemplate)){
        if(obj.hasOwnProperty(field) && typeof(obj[field] === type)){
            result[field] = obj[field];
 
@@ -56,9 +68,7 @@ function createCurrentWeatherObj(obj) {
            }
 
            if (field === 'dt') {
-               moment.locale('ru');
-               result[field] = moment(obj[field]*1000)
-                                .format('DD MMM YYYY, HH:mm');
+               result[field] = moment(obj[field]*1000).format('DD-MM-YYYY, HH:mm');
            }
 
            if( field === 'weather' && Array.isArray(obj[field])){
@@ -71,6 +81,36 @@ function createCurrentWeatherObj(obj) {
        }
    }
    return result;
+}
+
+function createWeatherForecast(forecast){
+    let result = [];
+    let template = new Map(Object.entries(dailyWeatherForecastTemplate));
+
+    //приводим response к шаблону dailyWeatherForecastTemplate
+    forecast.forEach((weather) => {
+        let filteredObj = {};
+        for(const [field, value] of Object.entries(weather)){
+           if(template.has(field) && typeof(weather[field]) === template.get(field)){
+               filteredObj[field] = value;
+           }
+        }
+        result.push(filteredObj);
+    });
+
+
+    //готовим итоговый обьект для отображения
+    result = result.map(weather => {
+        let time = weather['dt'] * 1000;
+        return {
+            ...weather,
+            dt: (moment(time).format('DD MMMM') + ',' + moment(time).format('dddd')).toUpperCase(),
+            weather: weather['weather'][0],
+            clouds: weather['clouds'] + '%'
+        }
+    });
+
+    return result;
 }
 
 

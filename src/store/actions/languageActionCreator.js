@@ -15,13 +15,10 @@ import i18next from "i18next";
 export function changeLanguage(languageName) {
    return dispatch => {
        dispatch(changeAppStatus(true));
-       setTimeout(()=> {
-           i18next.changeLanguage(languageName)
-               .then(()=>{
-                   dispatch({type:CHANGE_LANGUAGE, payload: {language: languageName}});
-                   dispatch(changeAppStatus(false))
-               })
-       },5000)
-
+       i18next.changeLanguage(languageName)
+           .then(()=>{
+               dispatch({type:CHANGE_LANGUAGE, payload: {language: languageName}});
+               dispatch(changeAppStatus(false))
+           })
    }
 }
