@@ -16,3 +16,9 @@
     width: 4rem;
     height: 4rem;
 }
+
+section {
+    min-height: 100vh;
+    padding: 2rem 0;
+    background: url("https://besthqwallpapers.com/Uploads/2-5-2020/130881/thumb2-metal-texture-metallic-silver-background-aluminum-texture-steel-texture-gray-metal-texutra.jpg") center/cover no-repeat;
+}

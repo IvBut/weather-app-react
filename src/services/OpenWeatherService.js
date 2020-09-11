@@ -22,7 +22,7 @@ const dailyWeatherForecastTemplate = {
     'dt': 'number',
     'humidity': 'number',
     'pressure': 'number',
-    'rain': 'number',
+    'pop': 'number',
     'temp': 'object',
     'weather': 'object',
     'wind_speed': 'number'
@@ -31,19 +31,39 @@ const dailyWeatherForecastTemplate = {
 class OpenWeatherService {
 
     async getWeather(city) {
-        let {coord} = city;
-        let endPoint = APP_SETTINGS.OPEN_WEATHER.ENDPOINT;
-        let apiKey = APP_SETTINGS.API_KEY;
+        try {
+            let {coord} = city;
+            let endPoint = APP_SETTINGS.OPEN_WEATHER.ENDPOINT;
+            let apiKey = APP_SETTINGS.API_KEY;
 
-        let params = this._createParamString(coord,MEASURMENT_UNITS.metric, apiKey);
-        let url = `${endPoint}/data/2.5/onecall?${params}`;
+            let params = this._createParamString(coord,MEASURMENT_UNITS.metric, apiKey);
+            let url = `${endPoint}/data/2.5/onecall?${params}`;
 
-        const response = await axios.get(url);
+            const response = await axios.get(url);
 
-        const currentWeather = response.data['current'] ? createCurrentWeatherObj(response.data['current']) : null;
-        const weatherForecast = response.data['daily']? createWeatherForecast(response.data['daily']) : null;
+            const currentWeather = response.data['current'] ? createCurrentWeatherObj(response.data['current']) : null;
+            const weatherForecast = response.data['daily']? createWeatherForecast(response.data['daily']) : null;
 
-        return {currentWeather, weatherForecast};
+            return {currentWeather, weatherForecast};
+
+        }catch (error) {
+            let msg = 'Something goes wrong. Please try get weather later!';
+            if (error.response) {
+                msg = error.response.data.message;
+                console.log(error.response.data);
+                throw new Error(msg);
+
+            } else if (error.request) {
+               msg = 'Please check your network connection!';
+                console.log(error.request);
+                throw new Error(msg);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        }
+
+
     }
 
     _createParamString(coord,metric, apikey){

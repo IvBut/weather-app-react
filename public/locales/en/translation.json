@@ -1,7 +1,8 @@
 {
   "search-component": {
     "search": "Search",
-    "placeholder": "Enter city name (lat)"
+    "placeholder": "Enter city name (lat)",
+    "error": "Only Latin letters!"
   },
   "language-btn": {
     "name": "Change language",
@@ -99,12 +100,18 @@
   },
   "daily-weather": {
     "temp": {
-      "day": "The day temperature",
-      "eve": "The temperature in the evening",
-      "max": "Max day temperature",
-      "min": "Min day temperature",
-      "morn": "The temperature this morning",
-      "night": "The temperature at night"
-    }
-  }
+      "day": "The day temperature (Celsius)",
+      "eve": "The temperature in the evening (Celsius)",
+      "max": "Max day temperature (Celsius)",
+      "min": "Min day temperature (Celsius)",
+      "morn": "The temperature this morning (Celsius)",
+      "night": "The temperature at night (Celsius)"
+    },
+    "clouds" : "Cloudiness",
+    "pressure": "Atmospheric pressure (hPa)",
+    "pop": "Probability of precipitation",
+    "wind_speed": " Wind speed (m/s)",
+    "humidity": "Humidity (%)"
+  },
+  "no-search-results": "Search for city name and get you weather forecast !=)"
 }

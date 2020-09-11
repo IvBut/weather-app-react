@@ -1,4 +1,4 @@
-import {FETCHING_WEATHER_STARTED, FETCHING_WEATHER_SUCCESS} from "../../constants/actionTypes";
+import {FETCHING_WEATHER_FAIL, FETCHING_WEATHER_STARTED, FETCHING_WEATHER_SUCCESS} from "../../constants/actionTypes";
 
 let initialState = {
     currentWeather: null,
@@ -16,6 +16,12 @@ const weatherReducer = (state = initialState, action) => {
                 ...state,
                 currentWeather: action.payload.currentWeather,
                 weatherForecast: action.payload.weatherForecast
+            };
+        case FETCHING_WEATHER_FAIL:
+            return {
+                ...state,
+                currentWeather: null,
+                weatherForecast: []
             };
 
         default: return state;

@@ -1,6 +1,6 @@
 import {changeAppStatus} from "./appStatusActionCreator";
 import {openWeatherService} from "../../services/OpenWeatherService";
-import {FETCHING_WEATHER_SUCCESS} from "../../constants/actionTypes";
+import {FETCHING_WEATHER_FAIL, FETCHING_WEATHER_SUCCESS, SHOW_ERROR_MESSAGE} from "../../constants/actionTypes";
 
 export function fetchWeatherStarted(city){
     return (dispatch) => {
@@ -10,7 +10,9 @@ export function fetchWeatherStarted(city){
                 dispatch(fetchWeatherSuccess(resp))
             })
             .catch(err=> {
-                console.log(err)
+                dispatch(fetchWeatherFailed());
+                dispatch({type: SHOW_ERROR_MESSAGE, payload: {message: err.message}})
+
             })
             .finally(() => {
                 dispatch(changeAppStatus(false))
@@ -25,5 +27,11 @@ export function fetchWeatherSuccess({currentWeather, weatherForecast}){
             currentWeather,
             weatherForecast
         }
+    }
+}
+
+export function fetchWeatherFailed() {
+    return {
+        type: FETCHING_WEATHER_FAIL
     }
 }

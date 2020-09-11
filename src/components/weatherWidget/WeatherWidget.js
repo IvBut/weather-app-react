@@ -18,10 +18,10 @@ const WeatherWidget = ({currentWeather, weatherForecast}) => {
     const {t} = useTranslation('translation');
 
     return (
-       <Container fluid className="bg-secondary">
-           <Row>
-               <Col lg={6} xs={12}>
-                   <Card className="w-100" bg={'dark'} border={'primary'} text={'light'}>
+       <Container>
+           <Row className="justify-content-center align-items-stretch">
+               <Col lg={4} xs={12}>
+                   <Card bg={'dark'} border={'primary'} text={'light'}>
                        <Card.Img variant="top" src={getWeatherImg(currentWeather,4)} />
                        <Card.Body>
                            <Card.Title className="text-center font-weight-bold text-capitalize">{t(`${getWeatherDescription(currentWeather)}`)}</Card.Title>
@@ -42,8 +42,8 @@ const WeatherWidget = ({currentWeather, weatherForecast}) => {
                        </ListGroup>
                    </Card>
                </Col>
-               <Col lg={6} xs={12}>
-                   <Carousel>
+               <Col lg={4} xs={12}>
+                   <Carousel className="border border-primary bg-secondary">
                        {
                            weatherForecast.map((weather,idx) => {
                                return (
@@ -54,29 +54,32 @@ const WeatherWidget = ({currentWeather, weatherForecast}) => {
                                            alt="Forecast"
                                        />
                                        <Carousel.Caption style={{position:'static'}}>
-                                           <h3 style={{marginBottom: '1rem'}}>
+                                           <h3 style={{margin: '1rem auto'}}>
                                                {t(`${DAILY_WEATHER_TEMPLATE.dt.dayName}${weather['dt']['dayName']}`)}
                                                {` - ${weather['dt']['dayNumber']} - `}
                                                {t(`${DAILY_WEATHER_TEMPLATE.dt.month}${weather['dt']['month']}`)}
                                            </h3>
+                                           <h3 style={{margin: '1rem auto'}}>
+                                               {t(`${getWeatherDescription(weather)}`)}
+                                           </h3>
                                            <Table striped bordered hover variant={'dark'} size="sm" style={{margin:'1rem auto'}} responsive={true}>
-                                               <thead>
-                                               <tr>
-                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.morn)}</th>
-                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.day)}</th>
-                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.night)}</th>
-                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.max)}</th>
-                                                   <th>{t(DAILY_WEATHER_TEMPLATE.temp.min)}</th>
-                                               </tr>
-                                               </thead>
                                                <tbody>
-                                               <tr>
-                                                   <td>{weather['temp']['morn']}</td>
-                                                   <td>{weather['temp']['day']}</td>
-                                                   <td>{weather['temp']['night']}</td>
-                                                   <td>{weather['temp']['max']}</td>
-                                                   <td>{weather['temp']['min']}</td>
-                                               </tr>
+                                                   {Object.keys(DAILY_WEATHER_TEMPLATE.temp).map( (key,idx) => (
+                                                     <tr key={key + '-' + idx}>
+                                                         <td className="text-primary text-center">{t(DAILY_WEATHER_TEMPLATE.temp[key])}</td>
+                                                         <td>{weather['temp'][key]}</td>
+                                                     </tr>
+                                                   ))}
+                                                   {
+                                                       Object.keys(DAILY_WEATHER_TEMPLATE)
+                                                           .filter(key => key !== 'temp' && key!== 'weather' && key !== 'dt' )
+                                                           .map(key => (
+                                                               <tr key={DAILY_WEATHER_TEMPLATE[key]}>
+                                                                   <td className="text-primary text-center">{t(DAILY_WEATHER_TEMPLATE[key])}</td>
+                                                                   <td>{weather[key]}</td>
+                                                               </tr>
+                                                           ))
+                                                   }
                                                </tbody>
                                            </Table>
                                        </Carousel.Caption>
@@ -104,12 +107,6 @@ function getWeatherDescription(weatherObj) {
 function getWeatherImg(weatherObj, size) {
     let pathTail = size > 0 ? `@${size}x.png` : `.png`;
     return APP_SETTINGS.OPEN_WEATHER.ICON_URL + weatherObj['weather']['icon'] + pathTail;
-}
-
-
-//forecast settings
-function getForecastWeatherDay(weatherObj) {
-
 }
 
 export default WeatherWidget;

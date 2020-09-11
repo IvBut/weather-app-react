@@ -58,7 +58,7 @@ const SearchComponent = ({dataArray, searchField, onSearch}) => {
                 <input type="text"  onChange={handleInputChange} ref={inpRef} className="search-element-input" placeholder={t("search-component.placeholder")}/>
                 <Button variant="primary" disabled={!isValidSearch || !selectedOption} className="search-element-btn" onClick={() => onSearch(selectedOption)}>{t("search-component.search")}</Button>
             </div>
-            {!isValidSearch && (<p style={{width:'100%', color:'red', textAlign:'center'}}>Only Latin characters are allowed!</p>)}
+            {!isValidSearch && (<p style={{width:'100%', color:'red', textAlign:'center'}}>{t('search-component.error')}</p>)}
             <ul>
                 {array.map((item, index) => (
                     <SearchOption key={createIndex({searchField,index })}
